@@ -1,0 +1,33 @@
+<%= form_with(model: post, data: { controller: "ocr" }) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :body, style: "display: block" %>
+    <%= form.text_area :body %>
+  </div>
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image, data: {  ocr_target: "file", action: "change->ocr#upload" } %>
+  </div>
+  <%# Hidden input for the image description %>
+  <%#= form.hidden_field :image_description, data: { ocr_target: "image_description" } %>
+  <div>
+    <%= form.label :image_description, style: "display: block" %>
+    <%= form.text_area :image_description, data: { ocr_target: "image_description" } %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
